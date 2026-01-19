@@ -17,7 +17,7 @@ Here is a highly simple configuration for Docker Compose:
 ```yaml
 services:
   sftp-server: # Our saphnet-sftp container, here
-    image: ghcr.io/AnarchoBooleanism/saphnet-sftp:latest
+    image: ghcr.io/anarchobooleanism/saphnet-sftp:latest
     environment:
       SFTP_USERNAME: my-sftp-user # Optional, defaults to "sftp-user"
       # Optional (but recommended), is recommended you set this via secret or

@@ -14,7 +14,7 @@ services:
       - seedbox-files:/seedbox-data
     restart: unless-stopped
   deluge-sftp: # Our saphnet-sftp container, here
-    image: ghcr.io/AnarchoBooleanism/saphnet-sftp:latest
+    image: ghcr.io/anarchobooleanism/saphnet-sftp:latest
     container_name: deluge-sftp
     restart: unless-stopped
     environment:
