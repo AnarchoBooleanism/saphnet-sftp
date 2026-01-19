@@ -1,0 +1,39 @@
+# An example Docker Compose configuration for saphnet-sftp, in the context of a Deluge seedbox
+
+services:
+  deluge: # Example service for SFTP server to complement
+    image: lscr.io/linuxserver/deluge:latest
+    container_name: deluge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - DELUGE_LOGLEVEL=error
+    volumes:
+      - deluge-config:/config
+      - seedbox-files:/seedbox-data
+    restart: unless-stopped
+  deluge-sftp: # Our saphnet-sftp container, here
+    image: ghcr.io/AnarchoBooleanism/saphnet-sftp:latest
+    container_name: deluge-sftp
+    restart: unless-stopped
+    environment:
+      SFTP_USERNAME: seedbox # Optional, defaults to "sftp-user"
+      # Optional (but recommended), is recommended you set this via secret or
+      # environment variable (e.g. ${SFTP_PASSWORD})
+      SFTP_PASSWORD: my-sftp-password
+    volumes:
+      - sftp-ssh-data:/etc/ssh # For persistence of SSH identity keys, optional
+      # The directory that is the root of what you want to share, note that
+      # this should be mounted to $HOME/sftp, with $HOME being "/home/" + the
+      # username specified in SFTP_UESRNAME
+      - seedbox-files:/home/seedbox/sftp
+    ports:
+      # Generally recommended to map the container's port 22 to port 2022/2222
+      # on the host, to avoid conflicts with the host's SSH port
+      - "2022:22"
+
+volumes:
+  deluge-config:
+  seedbox-files:
+  sftp-ssh-data: # Optional, keeps SSH identity keys consistent between deployments
