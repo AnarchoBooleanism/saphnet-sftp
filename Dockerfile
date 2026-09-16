@@ -1,4 +1,4 @@
-FROM emberstack/sftp:build-5.1.72
+FROM emberstack/sftp:build-5.1.72@sha256:9ac1eada318326673beb88eeaa92ad11e1436d8d2ebdf4bfb633618c73ed8339
 
 # To be passed from Github Actions
 ARG GIT_VERSION_TAG=unspecified
