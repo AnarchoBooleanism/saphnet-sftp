@@ -3,8 +3,10 @@ set -eu
 
 trap "exit" TERM
 
+EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+
 # Create /app/config/sftp.json (login details, directory information)
-cat > /app/config/sftp.json <<EOF
+cat > /app/config/sftp.json <<$EOF
 {
     "Global": {
         "Chroot": {
@@ -20,7 +22,7 @@ cat > /app/config/sftp.json <<EOF
         }
     ]
 }
-EOF
+$EOF
 
 # Entrypoint from original image
 exec tini -- dotnet ES.SFTP.dll
